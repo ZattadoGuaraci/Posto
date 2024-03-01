@@ -1,16 +1,20 @@
 ﻿using System.Numerics;
+using System.Runtime.CompilerServices;
 
 namespace FinalProject
-{
+{   // colocar opção de voltar
+    // tratar os dados no case 2, e no preço dos combustiveis (lembrar de validar valores zerados / nulos)
+    // opção de voltar ao menu anterior
+    // colocar default nos outros switch cases tambem
+    // verificar se quer 
     internal class Program
     {
-        //o que falta: Finalizar a primeira opção, quando entrar na opção Flex
-        // terminar a segunda opção do menu principal.
-            // para isso, usar objetos p/ armazenar os valores lidos nas variaveis tals............. E nesse caso nem preciso da função stringToFloat, ja que posso ter um método interno para tratar os dados que recebo
-
         static void Main(string[] args)
         {
             int number;
+            bool configurado = false;
+            Carro veiculo = new Carro();
+
             do
             {
                 Console.Clear();
@@ -51,29 +55,60 @@ namespace FinalProject
                                     Console.ReadLine();
                                     break;
                                 case 3:
-                                    Console.Clear();
-                                    Console.WriteLine("Qual o preço do Etanol?: ");
-                                    string precoEtanol = Console.ReadLine();
-                                    Console.WriteLine("Qual o preço da Gasolina?: ");
-                                    string precoGasolina = Console.ReadLine();
 
-                                    float precoGasolinaParsed = stringToFloat(precoGasolina, 2);
-                                    float precoEtanolParsed = stringToFloat(precoGasolina, 2);
-
-                                    float percentual = ((float)(0.7 / precoGasolinaParsed));
-                                    if(percentual > precoEtanolParsed)
+                                    if (configurado)
                                     {
-                                        //compensa etanol 
-                                        Console.WriteLine("Compensa Etanol");
-                                        Console.WriteLine(percentual);
+                                        Console.Clear();
+                                        Console.WriteLine("Qual o preço do Etanol?: ");
+                                        string precoEtanol = Console.ReadLine();
+                                        Console.WriteLine("Qual o preço da Gasolina?: ");
+                                        string precoGasolina = Console.ReadLine();
+
+                                        float precoGasolinaParsed = stringToFloat(precoGasolina, 2);
+                                        float precoEtanolParsed = stringToFloat(precoEtanol, 2);
+
+                                        float percentual = veiculo.autonomiaEtanol / veiculo.autonomiaGasolina;
+                                        if((percentual * precoGasolinaParsed) > precoEtanolParsed)
+                                        {
+                                            Console.Clear();
+                                            Console.WriteLine($"Compensa Etanol");
+                                            //etanol menor
+                                        }
+                                        else
+                                        {
+                                            Console.Clear();
+                                            Console.WriteLine($"compensa Gasolina");
+                                            //gasolina
+                                        }
                                     }
                                     else
                                     {
-                                        Console.WriteLine("Compensa Gasolina");
-                                        Console.WriteLine(percentual);
+                                        Console.Clear();
+                                        Console.WriteLine("Qual o preço do Etanol?: ");
+                                        string precoEtanol = Console.ReadLine();
+                                        Console.WriteLine("Qual o preço da Gasolina?: ");
+                                        string precoGasolina = Console.ReadLine();
+
+                                        float precoGasolinaParsed = stringToFloat(precoGasolina, 2);
+                                        float precoEtanolParsed = stringToFloat(precoEtanol, 2);
+
+                                        float percentual = ((float)(0.7 * precoGasolinaParsed));
+                                        if (percentual > precoEtanolParsed)
+                                        {
+                                            //compensa etanol 
+                                            Console.Clear();
+                                            Console.WriteLine($"Compensa Etanol");
+
+                                        }
+                                        else
+                                        {
+                                            Console.Clear();
+                                            Console.WriteLine($"Compensa Gasolina");
+
+                                        }
+
 
                                     }
-
 
                                     Console.Write("\n\nPressione enter para voltar ao menu\n");
                                     Console.ReadLine();
@@ -83,38 +118,101 @@ namespace FinalProject
                                     Console.WriteLine("Opção Inválida");
                                     Console.Write("\n\nPressione enter para voltar ao menu\n");
                                     Console.ReadLine();
+                                    break;
+                            }
+                            break;
+                        case 2:
+                            Console.Clear();
+                            Console.WriteLine("Selecione abaixo uma das opções que correspondem ao tipo de combustível do seu veículo\n1 - Etanol\n2 - Gasolina\n3 - Flex:");
+                            string opt = Console.ReadLine();
+                            int result2 = stringToInteger(opt);
+
+                            switch (result2)
+                            {
+                                case 1:
+
+                                    Console.WriteLine("Digite a autonomia do veículo no Álcool (em km/L)");
+                                    string autonomiaAlcool1 = Console.ReadLine();
+                                    autonomiaAlcoolParsed = stringToFloat(autonomiaAlcool1, 2);
+                                    veiculo.autonomiaEtanol = autonomiaAlcoolParsed;
+                                    Console.Clear();
+
+                                    Console.Write("Dados configurados\nPressione enter para voltar ao menu\n");
+                                    Console.ReadLine();
+                                    break;
+                                case 2:
+                                    Console.WriteLine("Digite a autonomia do seu veículo na Gasolina (em km/L)");
+                                    string autonomiaGasolina2 = Console.ReadLine();
+                                    autonomiaGasolinaParsed = stringToFloat(autonomiaGasolina2, 2);
+                                    Console.WriteLine(autonomiaGasolinaParsed);
+                                    veiculo.autonomiaGasolina = autonomiaGasolinaParsed;
+                                    Console.Clear();
+
+                                    Console.Write("Dados configurados\nPressione enter para voltar ao menu\n");
+                                    Console.ReadLine();
+
+                                    break;
+                                case 3:
+                                    Console.Clear();
+                                    string autonomiaAlcool;
+                                    Console.WriteLine("Digite a autonomia do veículo no Álcool");
+                                    autonomiaAlcool = Console.ReadLine();
+                                    autonomiaAlcoolParsed = stringToFloat(autonomiaAlcool, 2);
+                                    Console.WriteLine("Digite a autonomia do seu veículo na Gasolina");
+                                    string autonomiaGasolina;
+                                    autonomiaGasolina = Console.ReadLine();
+                                    autonomiaGasolinaParsed = stringToFloat(autonomiaGasolina, 2);
+                                    veiculo.autonomiaGasolina = autonomiaGasolinaParsed;
+                                    veiculo.autonomiaEtanol = autonomiaAlcoolParsed;
+                                    configurado = true;
+                                    Console.Clear();
+                                    Console.Write("Dados configurados\nPressione enter para voltar ao menu\n");
+                                    Console.ReadLine();
 
                                     break;
 
                             }
-                            Console.WriteLine(result);
-                            break;
-                        case 2:
-                            Console.Clear();
-                            Console.WriteLine("\nFazer um sub-menu acima...\n3- Flex:\nDigite a autonomia do seu veículo no álcool");
-                            string autonomiaAlcool;
-                            autonomiaAlcool = Console.ReadLine();
-                            autonomiaAlcoolParsed = stringToFloat(autonomiaAlcool, 2);
-                            Console.WriteLine(autonomiaAlcoolParsed);
-                            Console.WriteLine("\nFazer um sub-menu acima...\n3- Flex:\nDigite a autonomia do seu veículo na Gasolina");
-                            string autonomiaGasolina;
-                            autonomiaGasolina = Console.ReadLine();
-                            autonomiaGasolinaParsed = stringToFloat(autonomiaGasolina, 2);
-                            Console.WriteLine(autonomiaGasolinaParsed);
                             break;
                         case 3:
                             Console.Clear();
+                            Console.WriteLine("Deseja encerrar o programa? S/N");
+                            string res = Console.ReadLine();
+                            if(res == "s"){
+                                return;
+                            } else if( res == "n")
+                            {
+                                Console.Write("\n\nPressione enter para voltar ao menu\n");
+                                Console.ReadLine();
+
+                                continue;
+                            }
+                            else
+                            {
+                                Console.WriteLine("Opção inválida");
+                                break;
+
+
+                            }
+                            //colcoar a logica ai... e validar se é s ou n
+
                             break;
                         default:
                             Console.Clear();
                             Console.WriteLine("Opção Inválida");
+                            Console.Write("\n\nPressione enter para voltar ao menu\n");
+                            Console.ReadLine();
+
                             break;
                     }
                 }
                 else
                 {
                     Console.WriteLine("Digite Apenas os números informados no menu."); // colocar um timer de uns 3s, e depois redirecionar para o início
-                    return;
+                    Console.WriteLine("Opção Inválida");
+                    Console.Write("\n\nPressione enter para voltar ao menu\n");
+                    Console.ReadLine();
+
+                    continue;
                 }
 
 
@@ -123,6 +221,18 @@ namespace FinalProject
 
          
         }
+
+        public class Carro
+        {
+            public float autonomiaGasolina {get; set;}
+            public float autonomiaEtanol { get; set; }
+
+            public Carro()
+            {
+
+            }
+        }
+
         public static Int32 stringToInteger(string s)
         {
             int number;
